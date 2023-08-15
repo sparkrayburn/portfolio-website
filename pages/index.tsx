@@ -1,9 +1,8 @@
-import Image from 'next/image'
+import type { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Head from 'next/head';
-import type {NextPage, GetStaticProps} from 'next';
+// import type { GetServerSideProps} from 'next';
 import { Inter } from 'next/font/google'
 import Header from "../components/Header";
-const inter = Inter({ subsets: ['latin'] })
 import Hero from "../components/Hero"
 import About from '@/components/About';
 import WorkExperience from '@/components/WorkExperience';
@@ -16,6 +15,7 @@ import { fetchPageInfo } from '@/utils/fetchPageInfo';
 import { fetchExperience } from '@/utils/fetchExperiences';
 import { fetchSkills } from '@/utils/fetchSkils';
 import { fetchSocials } from '@/utils/fetchSocials';
+import { urlFor } from '@/sanity';
 
 
 type Props = {
@@ -70,7 +70,7 @@ const Home = ({pageInfo, experiences, skills, socials}: Props) => {
 <Link href='#hero'>
 <footer className='sticky bottom-5 w-full cursor-pointer'>
   <div className='flex items-center justify-center'>
-    <img className='h-10 w-10 rounded-full grayscale hover:grayscale-0 cursor-pointer' src='/resume.png'  />
+    <img className='h-10 w-10 rounded-full grayscale hover:grayscale-0 cursor-pointer' src= {urlFor(pageInfo?.profilePic).url()}  />
   </div>
 </footer>
 </Link>
@@ -82,7 +82,7 @@ const Home = ({pageInfo, experiences, skills, socials}: Props) => {
 
 export default Home;
 
-export const getStaticProps : GetStaticProps<Props> = async () =>{
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
   const pageInfo: PageInfo = await fetchPageInfo();
   const experiences: Experience[] = await fetchExperience();
   const skills: Skill[] = await fetchSkills();
@@ -93,12 +93,14 @@ export const getStaticProps : GetStaticProps<Props> = async () =>{
       pageInfo,
       experiences,
       skills,
-      socials
+      socials,
     },
-
     revalidate: 10,
-  }
-}
+  };
+};
+
+
+
 
 
 

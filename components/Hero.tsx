@@ -25,7 +25,7 @@ export default function Hero({pageInfo}: Props) {
         <BackgroundCircles  />
       <img 
       className='relative rounded-full h-32 w-32 mx-auto object-cover'
-      src  = {urlFor(pageInfo.profilePic).url()}  />
+      src  = {urlFor(pageInfo?.profilePic).url()}  />
 
     <div className='z-20'>
       <h2 className='text-sm uppercase text-gray-500 pb-2 tracking-[15px]' >SOFTWARE ENGINEER</h2>
