@@ -1,11 +1,23 @@
 import {Experience} from "../typings"
+import { groq } from "next-sanity";
+import { sanityClient } from "@/sanity";
+
+
+const query = groq`
+    *[_type == "experience"]{
+      ...,
+      technologies[] ->
+    }
+`
+
 
 export const fetchExperience = async() =>{
-    const res = await fetch (`${process.env.NEXT_PUBLIC_BASE_URL}/api/getExperience`)
+    const res = await sanityClient.fetch(query)
 
 
-    const data = await res.json()
-    const experiences: Experience[] = data.experiences;
+
+    // const data = await res.json()
+    const experiences: Experience [ ] = res
 
 
     return experiences;

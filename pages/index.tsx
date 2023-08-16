@@ -1,4 +1,4 @@
-import type { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 // import type { GetServerSideProps} from 'next';
 import { Inter } from 'next/font/google'
@@ -70,7 +70,7 @@ const Home = ({pageInfo, experiences, skills, socials}: Props) => {
 <Link href='#hero'>
 <footer className='sticky bottom-5 w-full cursor-pointer'>
   <div className='flex items-center justify-center'>
-    <img className='h-10 w-10 rounded-full grayscale hover:grayscale-0 cursor-pointer' src= {urlFor(pageInfo?.profilePic).url()}  />
+    <img className='h-10 w-10 rounded-full grayscale hover:grayscale-0 cursor-pointer' src= "./resume.png" />
   </div>
 </footer>
 </Link>
@@ -82,7 +82,7 @@ const Home = ({pageInfo, experiences, skills, socials}: Props) => {
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+export const getStaticProps : GetStaticProps<Props> = async () =>{
   const pageInfo: PageInfo = await fetchPageInfo();
   const experiences: Experience[] = await fetchExperience();
   const skills: Skill[] = await fetchSkills();
@@ -93,11 +93,13 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
       pageInfo,
       experiences,
       skills,
-      socials,
-    },
+      socials
+    } ,
+    
+
     revalidate: 10,
-  };
-};
+  }
+}
 
 
 
